@@ -7,7 +7,7 @@ import { useRewardsStore } from "@/store/rewardsStore";
 import { Mission, Reward } from "@/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import {
   Button,
   FlatList,
@@ -54,9 +54,9 @@ export default function DashScreen() {
     );
   }
 
-  const getLastMovement = async () => {
+   const getLastMovement = async () => {
     const movs = await getMovements();
-    if (movs.length > 0) {
+    if (Array.isArray(movs) && movs.length > 0) {
       return movs[movs.length - 1].description;
     } else {
       return "Sem movimentações";
