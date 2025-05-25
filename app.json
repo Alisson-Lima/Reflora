@@ -37,6 +37,13 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "c156f020-b085-454e-9a74-949b20a3e5e6"
+      }
+    },
+    "owner": "alisson_lima"
   }
 }

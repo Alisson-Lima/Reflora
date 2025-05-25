@@ -1,29 +1,39 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+import { Stack } from "expo-router";
 
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
-
-  if (!loaded) {
-    // Async font loading only occurs in development.
-    return null;
-  }
-
+export default function Layout() {
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <Stack
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen
+        name="(auth)/welcome"
+        options={{
+          title: "Bem-vindo",
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="(auth)/login"
+        options={{ title: "Login", headerShown: false }}
+      />
+      <Stack.Screen
+        name="(auth)/register"
+        options={{ title: "Cadastrar", headerShown: false }}
+      />
+      <Stack.Screen
+        name="home"
+        options={{ title: "Dashboard", headerShown: false }}
+      />
+      <Stack.Screen
+        name="/create/reward"
+        options={{ title: "Create new reward", headerShown: false }}
+      />
+      <Stack.Screen
+        name="/create/mission"
+        options={{ title: "Create new mission", headerShown: false }}
+      />
+    </Stack>
   );
 }
