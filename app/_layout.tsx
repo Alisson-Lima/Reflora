@@ -34,6 +34,22 @@ export default function Layout() {
         name="/create/mission"
         options={{ title: "Create new mission", headerShown: false }}
       />
+      <Stack.Screen
+        name="/movements"
+        options={{ title: "Your Movements", headerShown: false }}
+      />
+      <Stack.Screen
+        name="/colaborador"
+        options={{ title: "Dashboard", headerShown: false }}
+      />
+      <Stack.Screen
+        name="/parceiro"
+        options={{ title: "Dashboard", headerShown: false }}
+      />
+      <Stack.Screen
+        name="/voluntario"
+        options={{ title: "Dashboard", headerShown: false }}
+      />
     </Stack>
   );
 }

@@ -8,6 +8,8 @@ export interface User {
   email: string;
   senha: string;
   movimentations: Movimentation[];
+  missions?: Mission[];
+  points?: number;
 }
 
 export interface Reward {
