@@ -50,6 +50,10 @@ export default function Layout() {
         name="/voluntario"
         options={{ title: "Dashboard", headerShown: false }}
       />
+      <Stack.Screen
+        name="/rewards"
+        options={{ title: "Available Rewards", headerShown: false }}
+      />
     </Stack>
   );
 }

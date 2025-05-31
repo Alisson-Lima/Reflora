@@ -8,6 +8,7 @@ interface RewardsState {
   init: () => Promise<void>;
   createReward: (reward: Reward) => Promise<boolean>;
   getRewards: () => Promise<Reward[]>;
+  updateReward: (reward: Reward) => Promise<void>;
 }
 
 const STORAGE_KEY = "appRewards";
@@ -76,6 +77,21 @@ export const useRewardsStore = create<RewardsState>((set) => ({
     } catch (error) {
       console.error("Erro ao criar reward:", error);
       return false;
+    }
+  },
+  updateReward: async (updatedReward: Reward) => {
+    try {
+      const rewards = await loadRewardsFromStorage();
+      const index = rewards.findIndex((r) => r.id === updatedReward.id);
+      if (index !== -1) {
+        rewards[index] = updatedReward;
+        const saved = await saveRewardsToStorage(rewards);
+        if (saved) {
+          set({ rewards });
+        }
+      }
+    } catch (error) {
+      console.error("Erro ao atualizar reward:", error);
     }
   },
 }));

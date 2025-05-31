@@ -17,21 +17,30 @@ import {
 import { v4 as uuidv4 } from "uuid";
 
 // Lista estática de produtos disponíveis
-const productsAvailable = [
-  { id: "000001", nome: "Cupom R$5,00 do iFood", valor: 5000, points: 500 },
+type Product = {
+  id: string;
+  nome: string;
+  valor: number;
+  points: number;
+};
+const productsAvailable: Product[] = [
+  { id: "000001", nome: "Cupom R$5,00 do iFood", valor: 100, points: 500 },
   {
     id: "000002",
     nome: "GiftCard de R$5,00 PlayStore",
-    valor: 5000,
+    valor: 500,
     points: 500,
   },
-  { id: "000003", nome: "1 mês Spotify", valor: 24000, points: 2400 },
+  { id: "000003", nome: "1 mês Spotify", valor: 2400, points: 2400 },
 ];
 
 export default function CreateReward() {
   const [investment, setInvestment] = useState("");
-  const [selectedProductId, setSelectedProductId] = useState<string>(
-    productsAvailable[0].id
+  const [selectedProduct, setSelectedProduct] = useState<Product>(
+    productsAvailable[0]
+  );
+  const [minInvestment, setMinInvestment] = useState(
+    productsAvailable[0].valor
   );
   const [quantity, setQuantity] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
@@ -42,20 +51,22 @@ export default function CreateReward() {
 
   // Calcula a quantidade de recompensas e valida o investimento mínimo
   useEffect(() => {
-    const value = parseFloat(investment) * 100 || 0; // Converte para centavos
-    const selectedProduct = productsAvailable.find(
-      (p) => p.id === selectedProductId
-    );
-    const productValue = selectedProduct?.valor || 1;
+    if (!investment || !selectedProduct) return;
+    console.log("Calculando quantidade e investimento mínimo...");
+    const value = parseFloat(investment) || 0;
+    const productValue = selectedProduct.valor || 1;
     const calculatedQuantity = Math.floor(value / productValue);
     setQuantity(calculatedQuantity);
 
-    const minInvestment = Math.min(...productsAvailable.map((p) => p.valor));
-    setIsInvalidInvestment(value > 0 && value < minInvestment);
-  }, [investment, selectedProductId]);
+    setMinInvestment(selectedProduct.valor);
+    console.log("valor investido", value);
+    console.log("valor do produto", selectedProduct.valor);
+    console.log("é valida o investimento", isInvalidInvestment);
+    setIsInvalidInvestment(value < selectedProduct.valor);
+  }, [investment, selectedProduct]);
 
   const handleConfirm = () => {
-    if (!investment || !selectedProductId) {
+    if (!investment || !selectedProduct) {
       Alert.alert(
         "Erro",
         "Por favor, preencha o valor do investimento e selecione um produto."
@@ -63,12 +74,7 @@ export default function CreateReward() {
       return;
     }
     if (isInvalidInvestment) {
-      const minInvestment =
-        Math.min(...productsAvailable.map((p) => p.valor)) / 100;
-      Alert.alert(
-        "Erro",
-        `Investimento mínimo de R$${minInvestment.toFixed(2)}`
-      );
+      Alert.alert("Erro", `Investimento mínimo de R$${selectedProduct.valor}`);
       return;
     }
     if (quantity === 0) {
@@ -96,20 +102,10 @@ export default function CreateReward() {
       return;
     }
 
-    // Cria o reward
-    const selectedProduct = productsAvailable.find(
-      (p) => p.id === selectedProductId
-    );
-    if (!selectedProduct) {
-      Alert.alert("Erro", "Produto selecionado inválido.");
-      setModalVisible(false);
-      return;
-    }
-
     const newReward: Reward = {
       id: uuidv4(),
       nome: selectedProduct.nome,
-      valor: selectedProduct.points * quantity,
+      valor: selectedProduct.points,
       idParceiro: user.id,
       unidadesRestantes: quantity,
     };
@@ -135,9 +131,6 @@ export default function CreateReward() {
     }
   };
 
-  const minInvestment =
-    Math.min(...productsAvailable.map((p) => p.valor)) / 100;
-
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Valor do Investimento (R$):</Text>
@@ -150,22 +143,23 @@ export default function CreateReward() {
       />
       {isInvalidInvestment && (
         <Text style={styles.errorText}>
-          Investimento mínimo de R${minInvestment.toFixed(2)}
+          Investimento mínimo de R${minInvestment}
         </Text>
       )}
       <Text style={styles.label}>Recompensa:</Text>
       <Picker
-        selectedValue={selectedProductId}
-        onValueChange={(value) => setSelectedProductId(value)}
+        selectedValue={JSON.stringify(selectedProduct)}
+        onValueChange={(value) => {
+          console.log("Selecionando produto:", value);
+          setSelectedProduct(JSON.parse(value));
+        }}
         style={styles.picker}
       >
         {productsAvailable.map((product) => (
           <Picker.Item
             key={product.id}
-            label={`${product.nome} (R$${product.valor / 100}, ${
-              product.points
-            } pontos)`}
-            value={product.id}
+            label={`${product.nome} (R$${product.valor}, ${product.points} pontos)`}
+            value={JSON.stringify(product)}
           />
         ))}
       </Picker>

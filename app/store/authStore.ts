@@ -1,4 +1,4 @@
-import { Job, Mission, Movimentation, User } from "@/types/index";
+import { Job, Movimentation, User, UserMission } from "@/types/index";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { v4 as uuidv4 } from "uuid";
 import { create } from "zustand";
@@ -14,7 +14,9 @@ interface AuthState {
   getUsers: () => Promise<User[]>;
   addMovimentation: (movement: Omit<Movimentation, "id">) => Promise<boolean>;
   getMovements: () => Promise<Movimentation[]>;
-  getUserMissions: () => Promise<Mission[]>;
+  getUserMissions: () => Promise<UserMission[]>;
+  setUserMission: (mission: UserMission) => Promise<void>;
+  updateUserMission: (mission: UserMission) => Promise<void>;
   getUserJobs: () => Promise<Job[]>;
   setUserJob: (job: Job) => Promise<void>;
   updateUserJob: (job: Job) => Promise<void>;
@@ -217,8 +219,80 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
 
   getUserMissions: async () => {
-    // Futuramente, retornará user.missions quando implementado
-    return [];
+    try {
+      const currentUser = await loadCurrentUserFromStorage();
+      return currentUser ? currentUser.missions || [] : [];
+    } catch (error) {
+      console.error("Erro ao recuperar missões do usuário:", error);
+      return [];
+    }
+  },
+
+  setUserMission: async (mission) => {
+    try {
+      const currentUser = await loadCurrentUserFromStorage();
+      if (!currentUser) {
+        console.error("Nenhum usuário logado");
+        return;
+      }
+
+      const users = await loadUsersFromStorage();
+
+      const userMissions = currentUser.missions || [];
+      const newUserMissions = [...userMissions, mission];
+
+      const updatedUser: User = {
+        ...currentUser,
+        missions: newUserMissions,
+      };
+
+      const updatedUsers = users.map((user) =>
+        user.id === currentUser.id ? updatedUser : user
+      );
+
+      const savedUsers = await saveUsersToStorage(updatedUsers);
+      const savedCurrentUser = await saveCurrentUserToStorage(updatedUser);
+
+      if (savedUsers && savedCurrentUser) {
+        set({ user: updatedUser });
+      }
+    } catch (error) {
+      console.error("Erro ao atualizar missão do usuário:", error);
+    }
+  },
+
+  updateUserMission: async (mission) => {
+    try {
+      const currentUser = await loadCurrentUserFromStorage();
+      if (!currentUser) {
+        console.error("Nenhum usuário logado");
+        return;
+      }
+
+      const users = await loadUsersFromStorage();
+
+      const updatedMissions =
+        currentUser.missions?.map((m) => (m.id === mission.id ? mission : m)) ||
+        [];
+
+      const updatedUser: User = {
+        ...currentUser,
+        missions: updatedMissions,
+      };
+
+      const updatedUsers = users.map((user) =>
+        user.id === currentUser.id ? updatedUser : user
+      );
+
+      const savedUsers = await saveUsersToStorage(updatedUsers);
+      const savedCurrentUser = await saveCurrentUserToStorage(updatedUser);
+
+      if (savedUsers && savedCurrentUser) {
+        set({ user: updatedUser });
+      }
+    } catch (error) {
+      console.error("Erro ao atualizar missão do usuário:", error);
+    }
   },
 
   getUserJobs: async () => {
@@ -230,6 +304,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       return [];
     }
   },
+
   setUserJob: async (job) => {
     try {
       const currentUser = await loadCurrentUserFromStorage();
@@ -262,6 +337,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       console.error("Erro ao atualizar job do usuário:", error);
     }
   },
+
   updateUserJob: async (job) => {
     try {
       const currentUser = await loadCurrentUserFromStorage();
@@ -294,6 +370,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       console.error("Erro ao atualizar job do usuário:", error);
     }
   },
+
   addUserPoints: async (points) => {
     try {
       const currentUser = await loadCurrentUserFromStorage();
@@ -323,6 +400,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       console.error("Erro ao adicionar pontos ao usuário:", error);
     }
   },
+
   removeUserPoints: async (points) => {
     try {
       const currentUser = await loadCurrentUserFromStorage();

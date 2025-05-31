@@ -9,7 +9,7 @@ export interface User {
   email: string;
   senha: string;
   movimentations: Movimentation[];
-  missions?: Mission[];
+  missions?: UserMission[];
   jobs?: Job[];
   createdAt: string;
 }
@@ -46,9 +46,14 @@ export interface Mission {
   id: string;
   nome: string;
   descricao: string;
-  localEntrega: string;
-  valorReward: number;
+  local: string;
+  points: number;
   idParceiro: string;
+  codigoVerificador: string;
+}
+
+export interface UserMission extends Mission {
+  status: "pending" | "completed" | "canceled";
 }
 
 export interface CollectPoint {

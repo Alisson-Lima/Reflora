@@ -1,3 +1,4 @@
+import { CollectAreas } from "@/mocks/CollectAreas";
 import { useAuthStore } from "@/store/authStore";
 import { useMissionsStore } from "@/store/missionsStore";
 import { Mission } from "@/types/index";
@@ -17,12 +18,7 @@ import {
 import { v4 as uuidv4 } from "uuid";
 
 // Lista estática de locais disponíveis
-const localsAvailable = [
-  { id: "loc001", localName: "Centro de Reciclagem Norte" },
-  { id: "loc002", localName: "Ponto de Coleta Sul" },
-  { id: "loc003", localName: "Estação Ambiental Leste" },
-  { id: "loc004", localName: "Coop Recicla Oeste" },
-];
+const localsAvailable = CollectAreas;
 
 export default function CreateMission() {
   const [name, setName] = useState("");
@@ -76,9 +72,10 @@ export default function CreateMission() {
       id: uuidv4(),
       nome: name,
       descricao: description,
-      localEntrega: selectedLocal.localName,
-      valorReward: parseInt(rewardPoints, 10),
+      local: selectedLocal.nome,
+      points: parseInt(rewardPoints, 10),
       idParceiro: user.id,
+      codigoVerificador: selectedLocal.codigoVerificador,
     };
 
     const success = await createMission(newMission);
@@ -86,7 +83,7 @@ export default function CreateMission() {
       // Adiciona movimentação
       await addMovimentation({
         type: "create-mission",
-        description: `Criou a missão "${name}" com ${newMission.valorReward} pontos`,
+        description: `Criou a missão "${name}" com ${newMission.points} pontos`,
       });
       Alert.alert("Sucesso", `Missão "${name}" criada com sucesso!`);
       setModalVisible(false);
@@ -121,11 +118,7 @@ export default function CreateMission() {
         style={styles.picker}
       >
         {localsAvailable.map((local) => (
-          <Picker.Item
-            key={local.id}
-            label={local.localName}
-            value={local.id}
-          />
+          <Picker.Item key={local.id} label={local.nome} value={local.id} />
         ))}
       </Picker>
       <Text style={styles.label}>Pontuação (Pontos):</Text>

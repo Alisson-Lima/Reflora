@@ -1,5 +1,13 @@
+import { router } from "expo-router";
 import React from "react";
-import { StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  TextStyle,
+  View,
+  ViewStyle,
+} from "react-native";
 
 interface PointsProps {
   title?: string;
@@ -17,11 +25,16 @@ export default function Points({
   counterStyle,
 }: PointsProps) {
   return (
-    <View style={[styles.container, style]}>
+    <Pressable
+      style={[styles.container, style]}
+      onPress={() => {
+        router.push("/Rewards");
+      }}
+    >
       <View style={styles.coin} />
       <Text style={[styles.title, titleStyle]}>{title}</Text>
       <Text style={[styles.counter, counterStyle]}>{counter}</Text>
-    </View>
+    </Pressable>
   );
 }
 

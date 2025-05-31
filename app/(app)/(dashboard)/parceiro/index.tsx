@@ -13,7 +13,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  View
+  View,
 } from "react-native";
 
 export default function DashScreen() {
@@ -130,12 +130,8 @@ export default function DashScreen() {
                 <Text style={styles.rewardText}>
                   Descrição: {item.descricao}
                 </Text>
-                <Text style={styles.rewardText}>
-                  Local: {item.localEntrega}
-                </Text>
-                <Text style={styles.rewardText}>
-                  Pontos: {item.valorReward}
-                </Text>
+                <Text style={styles.rewardText}>Local: {item.local}</Text>
+                <Text style={styles.rewardText}>Pontos: {item.points}</Text>
               </View>
             )}
           />
