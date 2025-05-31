@@ -1,4 +1,4 @@
-import { Mission, Movimentation, User } from "@/types/index";
+import { Job, Mission, Movimentation, User } from "@/types/index";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { v4 as uuidv4 } from "uuid";
 import { create } from "zustand";
@@ -15,6 +15,11 @@ interface AuthState {
   addMovimentation: (movement: Omit<Movimentation, "id">) => Promise<boolean>;
   getMovements: () => Promise<Movimentation[]>;
   getUserMissions: () => Promise<Mission[]>;
+  getUserJobs: () => Promise<Job[]>;
+  setUserJob: (job: Job) => Promise<void>;
+  updateUserJob: (job: Job) => Promise<void>;
+  addUserPoints: (points: number) => Promise<void>;
+  removeUserPoints: (points: number) => Promise<void>;
 }
 
 // Chave para armazenar usuários no AsyncStorage
@@ -22,6 +27,8 @@ const STORAGE_KEY = "users";
 
 // Usuário administrador padrão
 const adminUser: User = {
+  createdAt: "2025-05-01T00:00:00Z",
+  points: 0,
   cpf: "0000000000000",
   email: "admin@admin.com",
   id: "1234",
@@ -212,5 +219,137 @@ export const useAuthStore = create<AuthState>((set) => ({
   getUserMissions: async () => {
     // Futuramente, retornará user.missions quando implementado
     return [];
+  },
+
+  getUserJobs: async () => {
+    try {
+      const currentUser = await loadCurrentUserFromStorage();
+      return currentUser ? currentUser.jobs || [] : [];
+    } catch (error) {
+      console.error("Erro ao recuperar jobs do usuário:", error);
+      return [];
+    }
+  },
+  setUserJob: async (job) => {
+    try {
+      const currentUser = await loadCurrentUserFromStorage();
+      if (!currentUser) {
+        console.error("Nenhum usuário logado");
+        return;
+      }
+
+      const users = await loadUsersFromStorage();
+
+      const userJobs = currentUser.jobs || [];
+      const newUserJobs = [...userJobs, job];
+
+      const updatedUser: User = {
+        ...currentUser,
+        jobs: newUserJobs,
+      };
+
+      const updatedUsers = users.map((user) =>
+        user.id === currentUser.id ? updatedUser : user
+      );
+
+      const savedUsers = await saveUsersToStorage(updatedUsers);
+      const savedCurrentUser = await saveCurrentUserToStorage(updatedUser);
+
+      if (savedUsers && savedCurrentUser) {
+        set({ user: updatedUser });
+      }
+    } catch (error) {
+      console.error("Erro ao atualizar job do usuário:", error);
+    }
+  },
+  updateUserJob: async (job) => {
+    try {
+      const currentUser = await loadCurrentUserFromStorage();
+      if (!currentUser) {
+        console.error("Nenhum usuário logado");
+        return;
+      }
+
+      const users = await loadUsersFromStorage();
+
+      const updatedJobs =
+        currentUser.jobs?.map((j) => (j.id === job.id ? job : j)) || [];
+
+      const updatedUser: User = {
+        ...currentUser,
+        jobs: updatedJobs,
+      };
+
+      const updatedUsers = users.map((user) =>
+        user.id === currentUser.id ? updatedUser : user
+      );
+
+      const savedUsers = await saveUsersToStorage(updatedUsers);
+      const savedCurrentUser = await saveCurrentUserToStorage(updatedUser);
+
+      if (savedUsers && savedCurrentUser) {
+        set({ user: updatedUser });
+      }
+    } catch (error) {
+      console.error("Erro ao atualizar job do usuário:", error);
+    }
+  },
+  addUserPoints: async (points) => {
+    try {
+      const currentUser = await loadCurrentUserFromStorage();
+      if (!currentUser) {
+        console.error("Nenhum usuário logado");
+        return;
+      }
+
+      const users = await loadUsersFromStorage();
+
+      const updatedUser: User = {
+        ...currentUser,
+        points: (currentUser.points || 0) + points,
+      };
+
+      const updatedUsers = users.map((user) =>
+        user.id === currentUser.id ? updatedUser : user
+      );
+
+      const savedUsers = await saveUsersToStorage(updatedUsers);
+      const savedCurrentUser = await saveCurrentUserToStorage(updatedUser);
+
+      if (savedUsers && savedCurrentUser) {
+        set({ user: updatedUser });
+      }
+    } catch (error) {
+      console.error("Erro ao adicionar pontos ao usuário:", error);
+    }
+  },
+  removeUserPoints: async (points) => {
+    try {
+      const currentUser = await loadCurrentUserFromStorage();
+      if (!currentUser) {
+        console.error("Nenhum usuário logado");
+        return;
+      }
+
+      const users = await loadUsersFromStorage();
+
+      const updatedUser: User = {
+        ...currentUser,
+        points: Math.max((currentUser.points || 0) - points, 0), // Garante que os pontos não fiquem negativos
+      };
+
+      const updatedUsers = users.map((user) =>
+        user.id === currentUser.id ? updatedUser : user
+      );
+
+      const savedUsers = await saveUsersToStorage(updatedUsers);
+      const savedCurrentUser = await saveCurrentUserToStorage(updatedUser);
+
+      if (savedUsers && savedCurrentUser) {
+        set({ user: updatedUser });
+      }
+    } catch (error) {
+      console.error("Erro ao remover pontos do usuário:", error);
+    }
   },
 }));

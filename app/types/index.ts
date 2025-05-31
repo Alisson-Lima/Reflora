@@ -2,6 +2,7 @@ export type UserTypes = "colaborador" | "voluntario" | "parceiro" | "admin";
 
 export interface User {
   id: string;
+  points: number;
   nome: string;
   cpf: string;
   tipoUsuario: UserTypes;
@@ -9,7 +10,28 @@ export interface User {
   senha: string;
   movimentations: Movimentation[];
   missions?: Mission[];
-  points?: number;
+  jobs?: Job[];
+  createdAt: string;
+}
+
+export interface Job {
+  id: string;
+  nome: string;
+  descricao: string;
+  dataJob: string;
+  local: string;
+  points: number;
+  codigoVerificador: string;
+  status: "pending" | "completed" | "canceled";
+}
+
+export interface CollectAreaType {
+  id: string;
+  nome: string;
+  codigoVerificador: string;
+  local: string;
+  descricao?: string;
+  points: number;
 }
 
 export interface Reward {

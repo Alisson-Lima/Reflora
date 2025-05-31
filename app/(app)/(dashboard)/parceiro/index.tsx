@@ -5,17 +5,15 @@ import { useAuthStore } from "@/store/authStore";
 import { useMissionsStore } from "@/store/missionsStore";
 import { useRewardsStore } from "@/store/rewardsStore";
 import { Mission, Reward } from "@/types";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import { useEffect } from "react";
 import {
-  Button,
   FlatList,
   Pressable,
   ScrollView,
   StyleSheet,
   Text,
-  View,
+  View
 } from "react-native";
 
 export default function DashScreen() {
@@ -29,11 +27,6 @@ export default function DashScreen() {
   const userMissions = missions.filter(
     (mission) => mission.idParceiro === user?.id
   );
-
-  const handleGetMovements = async () => {
-    const mov = await getMovements();
-    console.log(mov);
-  };
 
   useEffect(() => {
     if (!user) {
@@ -112,7 +105,7 @@ export default function DashScreen() {
           <FlatList
             data={userRewards}
             keyExtractor={(item) => item.id}
-            renderItem={({ item }: { item: Reward }) => (
+            renderItem={({ item }: Readonly<{ item: Reward }>) => (
               <View style={styles.rewardItem}>
                 <Text style={styles.rewardText}>Recompensa: {item.nome}</Text>
                 <Text style={styles.rewardText}>Pontos: {item.valor}</Text>
@@ -131,7 +124,7 @@ export default function DashScreen() {
           <FlatList
             data={userMissions}
             keyExtractor={(item) => item.id}
-            renderItem={({ item }: { item: Mission }) => (
+            renderItem={({ item }: Readonly<{ item: Mission }>) => (
               <View style={styles.rewardItem}>
                 <Text style={styles.rewardText}>Missão: {item.nome}</Text>
                 <Text style={styles.rewardText}>
@@ -147,15 +140,6 @@ export default function DashScreen() {
             )}
           />
         )}
-
-        <Button
-          title="Limpar Storage"
-          onPress={async () => {
-            await AsyncStorage.clear();
-            console.log("AsyncStorage limpo");
-          }}
-        />
-        <Button title="Ver movimentações" onPress={handleGetMovements} />
       </Container>
     </ScrollView>
   );

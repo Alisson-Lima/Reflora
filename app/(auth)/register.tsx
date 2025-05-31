@@ -33,12 +33,17 @@ export default function Register() {
     }
 
     const newUser: User = {
+      points: 0,
+      createdAt: new Date().toISOString(),
       id: uuidv4(),
       nome,
       cpf,
       tipoUsuario,
       email,
       senha,
+      movimentations: [],
+      jobs: [],
+      missions: [],
     };
     const ok = await register(newUser);
     if (!ok) {
