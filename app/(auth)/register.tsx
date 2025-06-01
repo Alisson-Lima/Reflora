@@ -1,15 +1,9 @@
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/Input";
 import { Picker } from "@react-native-picker/picker";
 import { router } from "expo-router";
 import React, { useState } from "react";
-import {
-  Alert,
-  Button,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 import { v4 as uuidv4 } from "uuid";
 import { useAuthStore } from "../store/authStore"; // Ajuste o caminho conforme necessário
 import { User, UserTypes } from "../types";
@@ -57,17 +51,15 @@ export default function Register() {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Nome:</Text>
-      <TextInput
+      <Input
         value={nome}
         onChangeText={setNome}
-        style={styles.input}
         placeholder="Digite seu nome"
       />
       <Text style={styles.label}>CPF:</Text>
-      <TextInput
+      <Input
         value={cpf}
         onChangeText={setCpf}
-        style={styles.input}
         keyboardType="numeric"
         placeholder="Digite seu CPF"
       />
@@ -82,28 +74,36 @@ export default function Register() {
         <Picker.Item label="Parceiro" value="parceiro" />{" "}
       </Picker>
       <Text style={styles.label}>Email:</Text>
-      <TextInput
+      <Input
         value={email}
         onChangeText={setEmail}
-        style={styles.input}
         autoCapitalize="none"
         placeholder="Digite seu email"
       />
       <Text style={styles.label}>Senha:</Text>
-      <TextInput
+      <Input
         value={senha}
         onChangeText={setSenha}
         secureTextEntry
-        style={styles.input}
         placeholder="Digite sua senha"
       />
-      <Button title="Cadastrar" onPress={handleRegister} />
-      <TouchableOpacity onPress={() => router.push("/(auth)/login")}>
-        <Text style={styles.link}>Já tenho conta</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => router.push("/(auth)/welcome")}>
-        <Text style={{ marginTop: 10, color: "blue" }}>Inicio</Text>
-      </TouchableOpacity>
+      <Button onPress={handleRegister} style={{ width: "100%" }}>
+        Cadastrar
+      </Button>
+      <Button
+        onPress={() => router.push("/(auth)/login")}
+        variant="secondary"
+        style={{ width: "100%" }}
+      >
+        Já tenho conta
+      </Button>
+      <Button
+        onPress={() => router.push("/(auth)/welcome")}
+        variant="secondary"
+        style={{ width: "100%" }}
+      >
+        Inicio
+      </Button>
     </View>
   );
 }

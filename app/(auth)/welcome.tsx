@@ -1,6 +1,7 @@
+import { Button } from "@/components/ui/button";
 import { router } from "expo-router";
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function Welcome() {
   return (
@@ -9,18 +10,20 @@ export default function Welcome() {
       <Text style={styles.subtitle}>
         Faça login ou cadastre-se para começar!
       </Text>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => router.push("/(auth)/login")}
-      >
-        <Text style={styles.buttonText}>Fazer Login</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.button, styles.registerButton]}
-        onPress={() => router.push("/(auth)/register")}
-      >
-        <Text style={styles.buttonText}>Fazer Cadastro</Text>
-      </TouchableOpacity>
+      <View style={{ width: "100%", gap: 8 }}>
+        <Button
+          onPress={() => router.push("/(auth)/login")}
+          style={{ width: "100%" }}
+        >
+          Fazer Login
+        </Button>
+        <Button
+          onPress={() => router.push("/(auth)/register")}
+          style={{ width: "100%" }}
+        >
+          Fazer Cadastro
+        </Button>
+      </View>
     </View>
   );
 }

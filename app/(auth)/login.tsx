@@ -1,8 +1,10 @@
 /* eslint-disable import/no-unresolved */
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/Input";
 import { useAuthStore } from "@/store/authStore";
 import { router } from "expo-router";
 import React, { useState } from "react";
-import { Button, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Text, View } from "react-native";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -21,25 +23,33 @@ export default function Login() {
   return (
     <View style={{ padding: 16 }}>
       <Text>Email:</Text>
-      <TextInput
+      <Input
         value={email}
         onChangeText={setEmail}
         style={{ borderWidth: 1, marginBottom: 8 }}
       />
       <Text>Senha:</Text>
-      <TextInput
+      <Input
         value={senha}
         onChangeText={setSenha}
         secureTextEntry
         style={{ borderWidth: 1, marginBottom: 8 }}
       />
-      <Button title="Entrar" onPress={handleLogin} />
-      <TouchableOpacity onPress={() => router.push("/(auth)/register")}>
-        <Text style={{ marginTop: 10, color: "blue" }}>Cadastrar</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => router.push("/(auth)/welcome")}>
-        <Text style={{ marginTop: 10, color: "blue" }}>Inicio</Text>
-      </TouchableOpacity>
+      <View style={{ gap: 8, marginTop: 16 }}>
+        <Button onPress={handleLogin}>Entrar</Button>
+        <Button
+          onPress={() => router.push("/(auth)/register")}
+          variant="secondary"
+        >
+          Cadastrar
+        </Button>
+        <Button
+          onPress={() => router.push("/(auth)/welcome")}
+          variant="secondary"
+        >
+          Inicio
+        </Button>
+      </View>
     </View>
   );
 }
