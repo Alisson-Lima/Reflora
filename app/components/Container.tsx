@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   
     marginHorizontal: "auto",
     marginVertical: 30,
-    backgroundColor: "#2a6f2b",
+    backgroundColor: "#DBDBDB",
     minHeight: "100%",
 
     

@@ -59,7 +59,7 @@ export default function DashScreen() {
   return (
     <ScrollView>
       <Container>
-        <Text style={{fontSize:16,marginBottom:14}}>Parceiro</Text>
+        <Text style={styles.sectionTitle}>Parceiro</Text>
         <GridDashboard.Root>
           <View style={styles.flex}>
             <GridDashboard.Mission
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: "700",
-    color: "#2c3e50",
+    color: "#000",
     marginTop: 24,
     marginBottom: 12,
   },
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
   },
   info: {
     fontSize: 15,
-    color: "#888",
+    color: "#000",
     marginBottom: 16,
   },
 });

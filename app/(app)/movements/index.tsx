@@ -2,6 +2,7 @@
 import Container from "@/components/Container";
 import { useAuthStore } from "@/store/authStore";
 import { Movimentation } from "@/types";
+import GridDashboard from "@/components/GridDashboard";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import {
@@ -29,7 +30,7 @@ export default function Movements() {
   return (
     <ScrollView>
       <Container>
-        <Text>Suas movimentações</Text>
+        <Text style={styles.sectionTitle}>Suas movimentações</Text>
         {Array.isArray(movs) && movs.length > 0 ? (
           <FlatList
             data={movs}
@@ -44,7 +45,12 @@ export default function Movements() {
         ) : (
           <Text style={styles.info}>Nenhuma movimentação.</Text>
         )}
-        <Button onPress={() => router.push("/")} title="Voltar" />
+
+
+                    <GridDashboard.Actions
+              label="Voltar"
+              onPress={() => router.push("/")}
+            />
       </Container>
     </ScrollView>
   );
@@ -53,11 +59,20 @@ export default function Movements() {
 const styles = StyleSheet.create({
   info: {
     fontSize: 16,
-    color: "#fff",
+    color: "#000",
     marginBottom: 16,
   },
   movItem: {
     width: "100%",
     padding: 16,
   },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: "#000",
+    marginTop: 24,
+    marginBottom: 12,
+  },
+
+
 });
