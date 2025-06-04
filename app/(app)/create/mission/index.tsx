@@ -1,5 +1,6 @@
 import Container from "@/components/Container";
 import GridDashboard from "@/components/GridDashboard";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/Input";
 import { CollectAreas } from "@/mocks/CollectAreas";
 import { useAuthStore } from "@/store/authStore";
@@ -10,7 +11,6 @@ import { router } from "expo-router";
 import React, { useState } from "react";
 import {
   Alert,
-  Button,
   Modal,
   StyleSheet,
   ScrollView,
@@ -132,8 +132,8 @@ export default function CreateMission() {
         keyboardType="numeric"
         placeholder="Digite a pontuação"
       />
-      <GridDashboard.Actions label="Confirmar" onPress={handleConfirm}/>  
-      <GridDashboard.Actions label="Voltar" onPress={() => router.push("/")}/>
+      <Button  onPress={handleConfirm}>Confirmar</Button>  
+      <Button style={styles.button} onPress={() => router.push("/")}>Voltar</Button>
 
 
       {/* Modal para confirmação de senha */}
@@ -165,7 +165,7 @@ export default function CreateMission() {
               </TouchableOpacity>
 
 
-              <GridDashboard.Actions label="Confirmar" onPress={handlePasswordSubmit}/>              
+              <Button onPress={handlePasswordSubmit}>Confirmar</Button>              
             </View>
           </View>
         </View>
@@ -178,6 +178,11 @@ export default function CreateMission() {
 }
 
 const styles = StyleSheet.create({
+
+  button: {
+    marginTop: 12,
+  },
+
   container: {
     flex: 1,
     padding: 16,

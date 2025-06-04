@@ -173,7 +173,7 @@ export default function CreateReward() {
         {quantity === 1 ? "unidade" : "unidades"}
       </Text>
         <Button onPress={handleConfirm}>Confirmar</Button>
-        <Button onPress={() => router.push("/")}>Voltar</Button>
+    <Button style={styles.button} onPress={() => router.push("/")}>Voltar</Button>
 
       {/* Modal para confirmação de senha */}
       <Modal  
@@ -217,6 +217,9 @@ export default function CreateReward() {
 }
 
 const styles = StyleSheet.create({
+  button: {
+    marginTop: 12,
+  },
   container: {
     flex: 1,
     padding: 16,
