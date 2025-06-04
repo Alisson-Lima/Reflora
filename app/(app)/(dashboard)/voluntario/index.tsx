@@ -177,7 +177,6 @@ export default function DashScreen() {
             onPress={() => router.push("/movements")}
           />
         </GridDashboard.Root>
-        
 
         <Text style={styles.sectionTitle}>Trabalho agendado:</Text>
         {Array.isArray(pendingJobs) && pendingJobs.length > 0 ? (
@@ -185,15 +184,15 @@ export default function DashScreen() {
             data={pendingJobs}
             keyExtractor={(item) => item.id}
             renderItem={({ item }: Readonly<{ item: Job }>) => (
-             <ListActionItem
-              description={item.descricao ?? ''}
-              title={item.nome}
-              hasPoints={true}
-              points={item.points}
-              onPress={() => {
-                    setFinishJobSelected(item);
-                    setOpenModalFinishJob(true);
-                  }}
+              <ListActionItem
+                description={item.descricao ?? ""}
+                title={item.nome}
+                hasPoints={true}
+                points={item.points}
+                onPress={() => {
+                  setFinishJobSelected(item);
+                  setOpenModalFinishJob(true);
+                }}
               />
             )}
           />
@@ -208,11 +207,11 @@ export default function DashScreen() {
             keyExtractor={(item) => item.id}
             renderItem={({ item }: Readonly<{ item: CollectAreaType }>) => (
               <ListActionItem
-              description={item.descricao ?? ''}
-              title={item.nome}
-              hasPoints={true}
-              points={item.points}
-              onPress={() => handleOpenDetailsCollectArea(item)}
+                description={item.descricao ?? ""}
+                title={item.nome}
+                hasPoints={true}
+                points={item.points}
+                onPress={() => handleOpenDetailsCollectArea(item)}
               />
             )}
           />
@@ -349,7 +348,7 @@ export default function DashScreen() {
                 Pontos: {finishJobSelected?.points}
               </Text>
               <Text style={styles.rewardText}>
-                Data do Trabalho {finishJobSelected?.dataJob}:
+                Data do Trabalho: {finishJobSelected?.dataJob}
               </Text>
               {/* input do código validador do job */}
               <TextInput
@@ -391,7 +390,6 @@ export default function DashScreen() {
               >
                 <Text style={{ color: "white" }}>Fechar</Text>
               </Pressable>
-              
             </View>
           </View>
         </Modal>
