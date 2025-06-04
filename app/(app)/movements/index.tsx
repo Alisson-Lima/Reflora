@@ -1,17 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Container from "@/components/Container";
+import ListActionItem from "@/components/ListActionItem";
+import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/store/authStore";
 import { Movimentation } from "@/types";
 import { router } from "expo-router";
-import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
-import {
-  FlatList,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { FlatList, ScrollView, StyleSheet, Text } from "react-native";
 
 export default function Movements() {
   const { getMovements } = useAuthStore();
@@ -34,16 +29,18 @@ export default function Movements() {
           <FlatList
             data={movs}
             keyExtractor={(item) => item.id}
-            renderItem={({ item }: { item: Movimentation }) => (
-              <View style={styles.movItem}>
-                <Text>Descrição: {item.description}</Text>
-              </View>
+            renderItem={({ item }: Readonly<{ item: Movimentation }>) => (
+              <ListActionItem
+                title={item.type}
+                description={item.description}
+                onPress={() => {}}
+              />
             )}
           />
         ) : (
           <Text style={styles.info}>Nenhuma movimentação.</Text>
         )}
-                    <Button onPress={() => router.push("/")}>Voltar</Button>
+        <Button onPress={() => router.push("/")}>Voltar</Button>
       </Container>
     </ScrollView>
   );
@@ -66,6 +63,4 @@ const styles = StyleSheet.create({
     marginTop: 24,
     marginBottom: 12,
   },
-
-
 });
