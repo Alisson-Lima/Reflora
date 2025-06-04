@@ -132,7 +132,7 @@ export default function DashScreen() {
   return (
     <ScrollView>
       <Container>
-        <Text>Colaborador</Text>
+        <Text style={styles.Text}>Colaborador</Text>
         <GridDashboard.Root>
           <View style={styles.flex}>
             <GridDashboard.Mission
@@ -158,9 +158,7 @@ export default function DashScreen() {
             onPress={() => router.push("/movements")}
           />
         </GridDashboard.Root>
-        <Pressable onPress={logout} style={styles.logoutButton}>
-          <Text style={styles.logoutText}>Logout</Text>
-        </Pressable>
+        
 
         <Text style={styles.sectionTitle}>Missões Pendentes:</Text>
         {Array.isArray(pendingMissions) && pendingMissions.length > 0 ? (
@@ -233,6 +231,10 @@ export default function DashScreen() {
         ) : (
           <Text style={styles.info}>Nenhuma missão disponível.</Text>
         )}
+
+        <Pressable onPress={logout} style={styles.logoutButton}>
+          <Text style={styles.logoutText}>Logout</Text>
+        </Pressable>
 
         <Modal
           animationType="slide"
@@ -381,22 +383,31 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   logoutButton: {
-    width: "100%",
+    width: "40%",
     padding: 10,
-    backgroundColor: "#ff1919",
+    backgroundColor: "#dc3545",
     borderRadius: 8,
     marginTop: 16,
     alignItems: "center",
+    textAlign: "center",
+    alignSelf: "center",
   },
   logoutText: {
     color: "white",
     fontSize: 16,
     fontWeight: "600",
   },
+  Text: {
+    color: "#eef2e3",
+    fontSize: 20,
+    fontWeight: "600",
+    marginTop: 16,
+    marginBottom: 16,
+  },
   sectionTitle: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#333",
+    color: "#eef2e3",
     marginTop: 16,
     marginBottom: 8,
   },
@@ -413,7 +424,8 @@ const styles = StyleSheet.create({
   },
   info: {
     fontSize: 16,
-    color: "#666",
+    color: "#eef2e3",
+    opacity: 0.7,
     marginBottom: 16,
   },
   modalOverlay: {

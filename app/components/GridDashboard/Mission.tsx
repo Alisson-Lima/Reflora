@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     flex: 3,
     justifyContent: "space-between",
     padding: 16,
-    borderWidth: 1,
+    
     height: 130,
     backgroundColor: "#fff",
     borderRadius: 12,
@@ -62,6 +62,8 @@ const styles = StyleSheet.create({
   },
   counter: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontWeight: "700",
+    color: "#34495e",
+    textAlign: "right",
   },
 });

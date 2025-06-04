@@ -30,20 +30,31 @@ export default function Welcome() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+     flex: 1,
     padding: 16,
-    justifyContent: "center",
-    alignItems: "center",
+    maxWidth: 700,
+    minWidth:500,
+    height: 500,
+    marginHorizontal: "auto",
+    marginVertical: 30,
+    backgroundColor: "#2a6f2b",
+    minHeight: "50%",
+
+    
+    borderRadius: 16,
+    
   },
   title: {
     fontSize: 28,
     fontWeight: "bold",
-    color: "#333",
+    color: "#eef2e3",
     marginBottom: 16,
+    textAlign: "center",
   },
   subtitle: {
     fontSize: 16,
-    color: "#666",
+    color: "#eef2e3",
+    opacity:0.8,
     marginBottom: 32,
     textAlign: "center",
   },

@@ -30,7 +30,7 @@ export default function Historic({
   descriptionStyle,
   counterStyle,
   onPress,
-  iconColor = "blue",
+  iconColor = "#2c3e50",
 }: HistoricProps) {
   return (
     <View style={[styles.container, style]}>
@@ -52,37 +52,44 @@ export default function Historic({
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    borderWidth: 1,
-    height: 130,
-    backgroundColor: "#fff",
+    flex: 1,
     justifyContent: "space-between",
     padding: 16,
-    borderRadius: 12,
+    height: 130,
+    backgroundColor: "#ffffff",
+    borderRadius: 16,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.08,
     shadowRadius: 4,
     elevation: 2,
+    borderWidth: 1,
+    borderColor: "#f0f0f0",
   },
   header: {
-    rowGap: 8,
+    gap: 4,
   },
   title: {
     fontSize: 16,
-    fontWeight: "700",
+    fontWeight: "600",
+    color: "#2c3e50",
   },
   description: {
     fontSize: 14,
-    color: "#747474",
-    fontWeight: "500",
+    fontWeight: "400",
+    color: "#7f8c8d",
   },
   counter: {
-    fontWeight: "bold",
+    fontSize: 24,
+    fontWeight: "700",
+    color: "#34495e",
+    textAlign: "right",
   },
+
   actions: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
   },
 });
+

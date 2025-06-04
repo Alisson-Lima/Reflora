@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/Input";
 import { useAuthStore } from "@/store/authStore";
 import { router } from "expo-router";
 import React, { useState } from "react";
-import { Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -21,7 +21,7 @@ export default function Login() {
   };
 
   return (
-    <View style={{ padding: 16 }}>
+    <View style={styles.container}>
       <Text>Email:</Text>
       <Input
         value={email}
@@ -53,3 +53,20 @@ export default function Login() {
     </View>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+    maxWidth: 700,
+    minWidth:500,
+    height: "50%",
+    marginHorizontal: "auto",
+    marginVertical: 30,
+    backgroundColor: "#2a6f2b",
+    minHeight: "50%",
+
+    
+    borderRadius: 16,
+    
+  },
+});

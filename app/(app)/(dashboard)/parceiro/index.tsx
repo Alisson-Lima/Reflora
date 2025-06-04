@@ -59,7 +59,7 @@ export default function DashScreen() {
   return (
     <ScrollView>
       <Container>
-        <Text>Parceiro</Text>
+        <Text style={{fontSize:16,marginBottom:14}}>Parceiro</Text>
         <GridDashboard.Root>
           <View style={styles.flex}>
             <GridDashboard.Mission
@@ -94,9 +94,7 @@ export default function DashScreen() {
             />
           </View>
         </GridDashboard.Root>
-        <Pressable onPress={logout} style={styles.logoutButton}>
-          <Text style={styles.logoutText}>Logout</Text>
-        </Pressable>
+        
 
         <Text style={styles.sectionTitle}>Recompensas Financiadas:</Text>
         {userRewards.length === 0 ? (
@@ -136,57 +134,84 @@ export default function DashScreen() {
             )}
           />
         )}
+        <Pressable onPress={logout} style={styles.logoutButton}>
+          <Text style={styles.logoutText}>Logout</Text>
+        </Pressable>
       </Container>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  
   flex: {
     flexDirection: "row",
     gap: 16,
     width: "100%",
+    justifyContent: "center",
+    marginBottom: 16,
+  },
+  Container:{
+    maxWidth: "90%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   actionsContainer: {
-    flexDirection: "column",
-    gap: 16,
+    flexDirection: "row",
+    gap: 12,
     width: "100%",
     marginTop: 16,
+    display: "flex",
+    alignItems: "center", 
+    justifyContent: "space-around",
   },
   logoutButton: {
-    width: "100%",
-    padding: 10,
-    backgroundColor: "#ff1919",
-    borderRadius: 8,
-    marginTop: 16,
+    width: "60%",
+    padding: 12,
+    backgroundColor: "#e74c3c",
+    borderRadius: 12,
+    marginTop: 24,
     alignItems: "center",
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 3,
+    margin: "auto",
   },
   logoutText: {
-    color: "white",
+    color: "#fff",
     fontSize: 16,
     fontWeight: "600",
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: "600",
-    color: "#333",
-    marginTop: 16,
-    marginBottom: 8,
+    fontWeight: "700",
+    color: "#2c3e50",
+    marginTop: 24,
+    marginBottom: 12,
   },
   rewardItem: {
-    padding: 12,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 4,
-    marginBottom: 8,
+    backgroundColor: "#f9f9f9",
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 12,
+    shadowColor: "#000",
+    shadowOpacity: 0.05,
+    shadowOffset: { width: 0, height: 1 },
+    shadowRadius: 2,
+    elevation: 1,
   },
   rewardText: {
-    fontSize: 16,
-    color: "#333",
+    fontSize: 15,
+    color: "#444",
+    marginBottom: 4,
   },
   info: {
-    fontSize: 16,
-    color: "#666",
+    fontSize: 15,
+    color: "#888",
     marginBottom: 16,
   },
 });
+

@@ -52,12 +52,14 @@ export default function Register() {
     <View style={styles.container}>
       <Text style={styles.label}>Nome:</Text>
       <Input
+        style={styles.input}
         value={nome}
         onChangeText={setNome}
         placeholder="Digite seu nome"
       />
       <Text style={styles.label}>CPF:</Text>
       <Input
+        style={styles.input}
         value={cpf}
         onChangeText={setCpf}
         keyboardType="numeric"
@@ -75,6 +77,7 @@ export default function Register() {
       </Picker>
       <Text style={styles.label}>Email:</Text>
       <Input
+        style={styles.input}
         value={email}
         onChangeText={setEmail}
         autoCapitalize="none"
@@ -82,41 +85,68 @@ export default function Register() {
       />
       <Text style={styles.label}>Senha:</Text>
       <Input
+        style={styles.input}
         value={senha}
         onChangeText={setSenha}
         secureTextEntry
         placeholder="Digite sua senha"
       />
-      <Button onPress={handleRegister} style={{ width: "100%" }}>
-        Cadastrar
-      </Button>
-      <Button
-        onPress={() => router.push("/(auth)/login")}
-        variant="secondary"
-        style={{ width: "100%" }}
-      >
-        Já tenho conta
-      </Button>
-      <Button
-        onPress={() => router.push("/(auth)/welcome")}
-        variant="secondary"
-        style={{ width: "100%" }}
-      >
-        Inicio
-      </Button>
+      <view style={styles.div}>
+          <Button onPress={handleRegister} style={{ width: "30%" }}>
+            Cadastrar
+          </Button>
+          <Button
+            onPress={() => router.push("/(auth)/login")}
+            variant="secondary"
+            style={{ width: "30%" }}
+          >
+            Já tenho conta
+          </Button>
+          <Button
+            onPress={() => router.push("/(auth)/welcome")}
+            variant="secondary"
+            style={{ width: "30%" }}
+          >
+            Inicio
+          </Button>
+        </view>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    
     flex: 1,
     padding: 16,
+    maxWidth: 700,
+    minWidth:500,
+    height: "50%",
+    marginHorizontal: "auto",
+    marginVertical: 30,
+    backgroundColor: "#2a6f2b",
+    minHeight: "50%",
+
+    
+    borderRadius: 16,
+    
+ 
+  },
+  div:{
+    flexDirection: "row",
+    
+    marginTop: 16,
+    gap: 5,
+    width: "100%",
+    flex: 1,
+    display: "flex",
+    alignItems: "center",
+  justifyContent: "center",
   },
   label: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#333",
+    color: "#eef2e3",
     marginTop: 8,
   },
   input: {
@@ -125,10 +155,12 @@ const styles = StyleSheet.create({
     padding: 8,
     marginBottom: 8,
     borderRadius: 4,
+    color: "#eef2e3",
   },
   picker: {
     borderWidth: 1,
-    borderColor: "#ccc",
+    height: 30,
+    borderColor: "#eef2e3",
     marginBottom: 8,
     borderRadius: 4,
   },

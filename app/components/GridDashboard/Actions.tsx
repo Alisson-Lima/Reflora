@@ -32,10 +32,12 @@ export default function Actions({
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
+    minWidth: "30%",
+   
+
   },
   button: {
-    backgroundColor: "green",
+    backgroundColor: "#043f2e",
     padding: 10,
     color: "white",
     borderRadius: 8,

@@ -9,8 +9,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    borderColor: "#f72e2e",
-    borderWidth: 1,
-    backgroundColor: "#ececec",
+    maxWidth: 700,
+    minWidth:500,
+  
+    marginHorizontal: "auto",
+    marginVertical: 30,
+    backgroundColor: "#2a6f2b",
+    minHeight: "100%",
+
+    
+    borderRadius: 16,
+    
   },
 });

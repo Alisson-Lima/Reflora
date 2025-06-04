@@ -40,32 +40,37 @@ export default function Points({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 2,
+    flex: 1,
     padding: 16,
     justifyContent: "space-between",
-    borderWidth: 1,
+    backgroundColor: "#ffffff",
+    borderRadius: 16,
     height: 130,
-    backgroundColor: "#fff",
-    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: "#f0f0f0",
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.08,
     shadowRadius: 4,
     elevation: 2,
   },
+  coin: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#fcd34d", // amarelo suave (ouro)
+    alignSelf: "flex-start",
+  },
   title: {
     fontSize: 14,
-    color: "#747474",
+    color: "#7f8c8d",
     fontWeight: "500",
   },
   counter: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: "700",
-  },
-  coin: {
-    width: 32,
-    height: 32,
-    borderRadius: 999,
-    backgroundColor: "#eee",
+    color: "#2c3e50",
+    textAlign: "right",
   },
 });
+

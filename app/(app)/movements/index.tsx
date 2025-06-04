@@ -53,7 +53,7 @@ export default function Movements() {
 const styles = StyleSheet.create({
   info: {
     fontSize: 16,
-    color: "#666",
+    color: "#fff",
     marginBottom: 16,
   },
   movItem: {
