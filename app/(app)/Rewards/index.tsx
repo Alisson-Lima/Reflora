@@ -70,7 +70,7 @@ export default function Rewards() {
             <Text style={styles.counter}>{userPoints}</Text>
           </View>
         </View>
-        <Text>Recompensas disponíveis</Text>
+        <Text style={{fontSize: 16}}>Recompensas disponíveis</Text>
 
         {/* list rewards */}
         {rewards.map((reward) => {
@@ -106,7 +106,6 @@ export default function Rewards() {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    borderWidth: 1,
     height: 130,
     backgroundColor: "#fff",
     justifyContent: "space-between",
@@ -117,6 +116,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
+    marginBottom: 16,
   },
   header: {
     rowGap: 8,

@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Container from "@/components/Container";
 import GridDashboard from "@/components/GridDashboard";
+import ListActionItem from "@/components/ListActionItem";
 import UserHeader from "@/components/UserHeader";
 import { CollectAreas } from "@/mocks/CollectAreas";
 import { useAuthStore } from "@/store/authStore";
@@ -176,9 +177,7 @@ export default function DashScreen() {
             onPress={() => router.push("/movements")}
           />
         </GridDashboard.Root>
-        <Pressable onPress={logout} style={styles.logoutButton}>
-          <Text style={styles.logoutText}>Logout</Text>
-        </Pressable>
+        
 
         <Text style={styles.sectionTitle}>Trabalho agendado:</Text>
         {Array.isArray(pendingJobs) && pendingJobs.length > 0 ? (
@@ -186,31 +185,16 @@ export default function DashScreen() {
             data={pendingJobs}
             keyExtractor={(item) => item.id}
             renderItem={({ item }: Readonly<{ item: Job }>) => (
-              <View style={styles.rewardItem}>
-                <Text style={styles.rewardText}>Missão: {item.nome}</Text>
-                <Text style={styles.rewardText}>
-                  Descrição: {item.descricao}
-                </Text>
-                <Text style={styles.rewardText}>Local: {item.local}</Text>
-                <Text style={styles.rewardText}>Pontos: {item.points}</Text>
-                <Text style={styles.rewardText}>
-                  Data agendada: {item.dataJob}
-                </Text>
-                <Pressable
-                  style={{
-                    marginTop: 8,
-                    backgroundColor: "#007bff",
-                    padding: 8,
-                    borderRadius: 4,
-                  }}
-                  onPress={() => {
+             <ListActionItem
+              description={item.descricao ?? ''}
+              title={item.nome}
+              hasPoints={true}
+              points={item.points}
+              onPress={() => {
                     setFinishJobSelected(item);
                     setOpenModalFinishJob(true);
                   }}
-                >
-                  <Text>Ver Detalhes</Text>
-                </Pressable>
-              </View>
+              />
             )}
           />
         ) : (
@@ -223,25 +207,13 @@ export default function DashScreen() {
             data={appJobs}
             keyExtractor={(item) => item.id}
             renderItem={({ item }: Readonly<{ item: CollectAreaType }>) => (
-              <View style={styles.rewardItem}>
-                <Text style={styles.rewardText}>Nome: {item.nome}</Text>
-                <Text style={styles.rewardText}>
-                  Descrição: {item.descricao}
-                </Text>
-                <Text style={styles.rewardText}>Local: {item.local}</Text>
-                <Text style={styles.rewardText}>Pontos: {item.points}</Text>
-                <Pressable
-                  onPress={() => handleOpenDetailsCollectArea(item)}
-                  style={{
-                    marginTop: 8,
-                    backgroundColor: "#007bff",
-                    padding: 8,
-                    borderRadius: 4,
-                  }}
-                >
-                  <Text>Trabalhar</Text>
-                </Pressable>
-              </View>
+              <ListActionItem
+              description={item.descricao ?? ''}
+              title={item.nome}
+              hasPoints={true}
+              points={item.points}
+              onPress={() => handleOpenDetailsCollectArea(item)}
+              />
             )}
           />
         ) : (
@@ -368,9 +340,6 @@ export default function DashScreen() {
                 Nome: {finishJobSelected?.nome}
               </Text>
               <Text style={styles.rewardText}>
-                codigo: {finishJobSelected?.codigoVerificador}
-              </Text>
-              <Text style={styles.rewardText}>
                 Descrição: {finishJobSelected?.descricao}
               </Text>
               <Text style={styles.rewardText}>
@@ -422,9 +391,13 @@ export default function DashScreen() {
               >
                 <Text style={{ color: "white" }}>Fechar</Text>
               </Pressable>
+              
             </View>
           </View>
         </Modal>
+        <Pressable onPress={logout} style={styles.logoutButton}>
+          <Text style={styles.logoutText}>Logout</Text>
+        </Pressable>
       </Container>
     </ScrollView>
   );
@@ -444,11 +417,16 @@ const styles = StyleSheet.create({
   },
   logoutButton: {
     width: "100%",
-    padding: 10,
-    backgroundColor: "#ff1919",
-    borderRadius: 8,
-    marginTop: 16,
+    padding: 12,
+    backgroundColor: "#e74c3c",
+    borderRadius: 12,
     alignItems: "center",
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 3,
+    margin: "auto",
   },
   logoutText: {
     color: "white",
@@ -463,15 +441,20 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   rewardItem: {
-    padding: 12,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 4,
-    marginBottom: 8,
+    backgroundColor: "#fff",
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   rewardText: {
-    fontSize: 16,
+    fontSize: 14,
     color: "#333",
+    marginBottom: 6,
   },
   info: {
     fontSize: 16,
@@ -485,7 +468,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.5)",
   },
   modalContent: {
-    width: "80%",
+    width: "70%",
     backgroundColor: "#fff",
     padding: 20,
     borderRadius: 8,
