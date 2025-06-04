@@ -1,4 +1,6 @@
 import { useAuthStore } from "@/store/authStore";
+import Container from "@/components/Container";
+import GridDashboard from "@/components/GridDashboard";
 import { useRewardsStore } from "@/store/rewardsStore";
 import { Reward } from "@/types/index";
 import { Picker } from "@react-native-picker/picker";
@@ -9,6 +11,7 @@ import {
   Button,
   Modal,
   StyleSheet,
+  ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
@@ -132,6 +135,8 @@ export default function CreateReward() {
   };
 
   return (
+    <ScrollView>
+          <Container>
     <View style={styles.container}>
       <Text style={styles.label}>Valor do Investimento (R$):</Text>
       <TextInput
@@ -167,11 +172,10 @@ export default function CreateReward() {
         Quantidade Financiada: {quantity}{" "}
         {quantity === 1 ? "unidade" : "unidades"}
       </Text>
-      <Button title="Confirmar" onPress={handleConfirm} />
-      <Button title="Voltar" onPress={() => router.push("/")} />
-
+        <GridDashboard.Actions label="Confirmar" onPress={handleConfirm}/>
+        <GridDashboard.Actions label="Voltar" onPress={() => router.push("/")}/>
       {/* Modal para confirmação de senha */}
-      <Modal
+      <Modal  
         animationType="slide"
         transparent={true}
         visible={modalVisible}
@@ -197,17 +201,17 @@ export default function CreateReward() {
               >
                 <Text style={styles.buttonText}>Cancelar</Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.modalButton, styles.confirmButton]}
-                onPress={handlePasswordSubmit}
-              >
-                <Text style={styles.buttonText}>Confirmar</Text>
-              </TouchableOpacity>
+                    <GridDashboard.Actions
+              label="Confirmar"
+              onPress={handlePasswordSubmit}
+            />
             </View>
           </View>
         </View>
       </Modal>
     </View>
+    </Container>
+    </ScrollView>
   );
 }
 

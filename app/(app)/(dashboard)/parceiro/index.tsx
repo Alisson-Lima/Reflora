@@ -78,6 +78,7 @@ export default function DashScreen() {
             />
           </View>
           <GridDashboard.Historic
+
             title="Histórico de movimentações"
             description="Última movimentação"
             counter={getLastMovement()}

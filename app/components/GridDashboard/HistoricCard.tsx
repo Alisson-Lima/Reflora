@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     color: "#7f8c8d",
   },
   counter: {
-    fontSize: 24,
+    fontSize: 16  ,
     fontWeight: "700",
     color: "#34495e",
     textAlign: "right",
