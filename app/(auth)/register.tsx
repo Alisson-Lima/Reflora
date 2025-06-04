@@ -91,57 +91,38 @@ export default function Register() {
         secureTextEntry
         placeholder="Digite sua senha"
       />
-      <view style={styles.div}>
-          <Button onPress={handleRegister} style={{ width: "30%" }}>
-            Cadastrar
-          </Button>
-          <Button
-            onPress={() => router.push("/(auth)/login")}
-            variant="secondary"
-            style={{ width: "30%" }}
-          >
-            Já tenho conta
-          </Button>
-          <Button
-            onPress={() => router.push("/(auth)/welcome")}
-            variant="secondary"
-            style={{ width: "30%" }}
-          >
-            Inicio
-          </Button>
-        </view>
+      <View
+        style={{
+          flexDirection: "column",
+          width: "100%",
+          gap: 8,
+          marginTop: 16,
+        }}
+      >
+        <Button onPress={handleRegister}>Cadastrar</Button>
+        <Button
+          onPress={() => router.push("/(auth)/login")}
+          variant="secondary"
+        >
+          Já tenho conta
+        </Button>
+        <Button
+          onPress={() => router.push("/(auth)/welcome")}
+          variant="secondary"
+        >
+          Inicio
+        </Button>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    
     flex: 1,
     padding: 16,
-    maxWidth: 700,
-    minWidth:500,
-    height: "50%",
-    marginHorizontal: "auto",
-    marginVertical: 30,
-    backgroundColor: "#2a6f2b",
-    minHeight: "50%",
-
-    
-    borderRadius: 16,
-    
- 
-  },
-  div:{
-    flexDirection: "row",
-    
-    marginTop: 16,
-    gap: 5,
-    width: "100%",
-    flex: 1,
-    display: "flex",
-    alignItems: "center",
-  justifyContent: "center",
+    alignItems: "flex-start",
+    justifyContent: "center",
   },
   label: {
     fontSize: 16,
@@ -163,6 +144,7 @@ const styles = StyleSheet.create({
     borderColor: "#eef2e3",
     marginBottom: 8,
     borderRadius: 4,
+    width: "100%",
   },
   link: {
     marginTop: 10,

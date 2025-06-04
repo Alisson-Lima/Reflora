@@ -35,7 +35,14 @@ export default function Login() {
         secureTextEntry
         style={{ borderWidth: 1, marginBottom: 8 }}
       />
-      <View style={{ gap: 8, marginTop: 16 }}>
+      <View
+        style={{
+          flexDirection: "column",
+          width: "100%",
+          gap: 8,
+          marginTop: 16,
+        }}
+      >
         <Button onPress={handleLogin}>Entrar</Button>
         <Button
           onPress={() => router.push("/(auth)/register")}
@@ -57,16 +64,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    maxWidth: 700,
-    minWidth:500,
-    height: "50%",
-    marginHorizontal: "auto",
-    marginVertical: 30,
-    backgroundColor: "#2a6f2b",
-    minHeight: "50%",
-
-    
-    borderRadius: 16,
-    
+    alignItems: "flex-start",
+    justifyContent: "center",
   },
 });
