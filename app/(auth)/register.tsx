@@ -3,10 +3,11 @@ import { Input } from "@/components/ui/Input";
 import { Picker } from "@react-native-picker/picker";
 import { router } from "expo-router";
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import { v4 as uuidv4 } from "uuid";
 import { useAuthStore } from "../store/authStore"; // Ajuste o caminho conforme necessário
 import { User, UserTypes } from "../types";
+import Logo from "./../../assets/images/logoReflora.png";
 
 export default function Register() {
   const [nome, setNome] = useState("");
@@ -49,6 +50,20 @@ export default function Register() {
 
   return (
     <View style={styles.container}>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100%",
+        }}
+      >
+        <Image
+          source={Logo}
+          style={{ width: 100, height: 100 }}
+          resizeMode="contain"
+        />
+      </View>
       <Text style={styles.label}>Nome:</Text>
       <Input
         value={nome}

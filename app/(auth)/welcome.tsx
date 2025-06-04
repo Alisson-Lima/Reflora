@@ -1,11 +1,26 @@
 import ChoseLoginButton from "@/components/ChoseLoginButton";
 import { router } from "expo-router";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
+import Logo from "./../../assets/images/logoReflora.png";
 
 export default function Welcome() {
   return (
     <View style={styles.container}>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100%",
+        }}
+      >
+        <Image
+          source={Logo}
+          style={{ width: 100, height: 100 }}
+          resizeMode="contain"
+        />
+      </View>
       <Text style={styles.title}>Bem-vindo ao Reflora</Text>
       <Text style={styles.subtitle}>
         Faça login ou cadastre-se para começar!

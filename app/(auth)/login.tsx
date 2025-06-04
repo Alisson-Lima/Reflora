@@ -4,7 +4,8 @@ import { Input } from "@/components/ui/Input";
 import { useAuthStore } from "@/store/authStore";
 import { router } from "expo-router";
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
+import Logo from "./../../assets/images/logoReflora.png";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -22,6 +23,20 @@ export default function Login() {
 
   return (
     <View style={styles.container}>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100%",
+        }}
+      >
+        <Image
+          source={Logo}
+          style={{ width: 100, height: 100 }}
+          resizeMode="contain"
+        />
+      </View>
       <Text>Email:</Text>
       <Input
         value={email}
