@@ -2,11 +2,10 @@
 import Container from "@/components/Container";
 import { useAuthStore } from "@/store/authStore";
 import { Movimentation } from "@/types";
-import GridDashboard from "@/components/GridDashboard";
 import { router } from "expo-router";
+import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import {
-  Button,
   FlatList,
   ScrollView,
   StyleSheet,
@@ -37,7 +36,6 @@ export default function Movements() {
             keyExtractor={(item) => item.id}
             renderItem={({ item }: { item: Movimentation }) => (
               <View style={styles.movItem}>
-                <Text>Tipo movimentação: {item.type}</Text>
                 <Text>Descrição: {item.description}</Text>
               </View>
             )}
@@ -45,12 +43,7 @@ export default function Movements() {
         ) : (
           <Text style={styles.info}>Nenhuma movimentação.</Text>
         )}
-
-
-                    <GridDashboard.Actions
-              label="Voltar"
-              onPress={() => router.push("/")}
-            />
+                    <Button onPress={() => router.push("/")}>Voltar</Button>
       </Container>
     </ScrollView>
   );

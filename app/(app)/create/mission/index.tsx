@@ -1,3 +1,6 @@
+import Container from "@/components/Container";
+import GridDashboard from "@/components/GridDashboard";
+import { Input } from "@/components/ui/Input";
 import { CollectAreas } from "@/mocks/CollectAreas";
 import { useAuthStore } from "@/store/authStore";
 import { useMissionsStore } from "@/store/missionsStore";
@@ -10,6 +13,7 @@ import {
   Button,
   Modal,
   StyleSheet,
+  ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
@@ -95,19 +99,19 @@ export default function CreateMission() {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView>   
+       <Container>    
+        <View>
       <Text style={styles.label}>Nome da Missão:</Text>
-      <TextInput
+      <Input
         value={name}
         onChangeText={setName}
-        style={styles.input}
         placeholder="Digite o nome da missão"
       />
       <Text style={styles.label}>Descrição:</Text>
-      <TextInput
+      <Input
         value={description}
         onChangeText={setDescription}
-        style={[styles.input, styles.multilineInput]}
         placeholder="Digite a descrição (ex. Guardar 2 garrafas PET)"
         multiline
       />
@@ -122,15 +126,15 @@ export default function CreateMission() {
         ))}
       </Picker>
       <Text style={styles.label}>Pontuação (Pontos):</Text>
-      <TextInput
+      <Input style={styles.input}
         value={rewardPoints}
         onChangeText={setRewardPoints}
-        style={styles.input}
         keyboardType="numeric"
         placeholder="Digite a pontuação"
       />
-      <Button title="Confirmar" onPress={handleConfirm} />
-      <Button title="Voltar" onPress={() => router.push("/")} />
+      <GridDashboard.Actions label="Confirmar" onPress={handleConfirm}/>  
+      <GridDashboard.Actions label="Voltar" onPress={() => router.push("/")}/>
+
 
       {/* Modal para confirmação de senha */}
       <Modal
@@ -142,7 +146,7 @@ export default function CreateMission() {
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Confirme sua Senha</Text>
-            <TextInput
+            <Input
               value={password}
               onChangeText={setPassword}
               style={styles.input}
@@ -159,17 +163,17 @@ export default function CreateMission() {
               >
                 <Text style={styles.buttonText}>Cancelar</Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.modalButton, styles.confirmButton]}
-                onPress={handlePasswordSubmit}
-              >
-                <Text style={styles.buttonText}>Confirmar</Text>
-              </TouchableOpacity>
+
+
+              <GridDashboard.Actions label="Confirmar" onPress={handlePasswordSubmit}/>              
             </View>
           </View>
         </View>
       </Modal>
     </View>
+    </Container>
+    </ScrollView>
+
   );
 }
 
@@ -186,11 +190,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    padding: 8,
-    marginBottom: 8,
-    borderRadius: 4,
+    marginBottom: 10,
   },
   multilineInput: {
     height: 100,
@@ -232,6 +232,12 @@ const styles = StyleSheet.create({
   },
   cancelButton: {
     backgroundColor: "#ff4444",
+    padding: 10,
+    marginBottom: 10,
+    color: "white",
+    borderRadius: 8,
+    textAlign: "center",
+    fontWeight: "bold",
   },
   confirmButton: {
     backgroundColor: "#007AFF",

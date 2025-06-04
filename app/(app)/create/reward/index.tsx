@@ -1,5 +1,6 @@
 import { useAuthStore } from "@/store/authStore";
 import Container from "@/components/Container";
+import { Button } from "@/components/ui/button";
 import GridDashboard from "@/components/GridDashboard";
 import { useRewardsStore } from "@/store/rewardsStore";
 import { Reward } from "@/types/index";
@@ -8,7 +9,6 @@ import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
   Alert,
-  Button,
   Modal,
   StyleSheet,
   ScrollView,
@@ -117,7 +117,7 @@ export default function CreateReward() {
     if (success) {
       // Adiciona movimentação
       await addMovimentation({
-        type: "create-reward",
+        type:"create-reward",
         description: `Financiou ${quantity} unidade(s) de "${
           selectedProduct.nome
         }" por ${selectedProduct.points * quantity} pontos`,
@@ -172,8 +172,9 @@ export default function CreateReward() {
         Quantidade Financiada: {quantity}{" "}
         {quantity === 1 ? "unidade" : "unidades"}
       </Text>
-        <GridDashboard.Actions label="Confirmar" onPress={handleConfirm}/>
-        <GridDashboard.Actions label="Voltar" onPress={() => router.push("/")}/>
+        <Button onPress={handleConfirm}>Confirmar</Button>
+        <Button onPress={() => router.push("/")}>Voltar</Button>
+
       {/* Modal para confirmação de senha */}
       <Modal  
         animationType="slide"
@@ -282,6 +283,12 @@ const styles = StyleSheet.create({
   },
   cancelButton: {
     backgroundColor: "#ff4444",
+    padding: 10,
+    marginBottom: 10,
+    color: "white",
+    borderRadius: 8,
+    textAlign: "center",
+    fontWeight: "bold",
   },
   confirmButton: {
     backgroundColor: "#007AFF",
@@ -289,5 +296,6 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "#fff",
     fontWeight: "600",
+
   },
 });

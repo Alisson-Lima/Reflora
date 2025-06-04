@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Container from "@/components/Container";
 import GridDashboard from "@/components/GridDashboard";
+import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/store/authStore";
 import { useMissionsStore } from "@/store/missionsStore";
 import { useRewardsStore } from "@/store/rewardsStore";
@@ -85,14 +86,12 @@ export default function DashScreen() {
             onPress={() => router.push("/movements")}
           />
           <View style={styles.actionsContainer}>
-            <GridDashboard.Actions
-              label="Criar novo brinde"
+            <Button
               onPress={() => router.push("/create/reward")}
-            />
-            <GridDashboard.Actions
-              label="Criar nova missão"
+            >Criar novo brinde</Button>
+            <Button
               onPress={() => router.push("/create/mission")}
-            />
+            >Criar nova missão</Button>
           </View>
         </GridDashboard.Root>
         
@@ -135,9 +134,7 @@ export default function DashScreen() {
             )}
           />
         )}
-        <Pressable onPress={logout} style={styles.logoutButton}>
-          <Text style={styles.logoutText}>Logout</Text>
-        </Pressable>
+        <Button onPress={logout} style={styles.logoutButton}>Sair</Button>
       </Container>
     </ScrollView>
   );
@@ -168,23 +165,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   logoutButton: {
-    width: "60%",
-    padding: 12,
     backgroundColor: "#e74c3c",
-    borderRadius: 12,
-    marginTop: 24,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 4,
-    elevation: 3,
-    margin: "auto",
-  },
-  logoutText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "600",
   },
   sectionTitle: {
     fontSize: 18,
