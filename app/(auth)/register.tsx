@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/Input";
 import { Picker } from "@react-native-picker/picker";
 import { router } from "expo-router";
 import React, { useState } from "react";
-import { Alert, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { v4 as uuidv4 } from "uuid";
 import { useAuthStore } from "../store/authStore"; // Ajuste o caminho conforme necessário
 import { User, UserTypes } from "../types";
@@ -19,8 +19,7 @@ export default function Register() {
   const handleRegister = async () => {
     // Validação de campos obrigatórios
     if (!nome || !cpf || !tipoUsuario || !email || !senha) {
-      Alert.alert(
-        "Erro",
+      alert(
         "Todos os campos são obrigatórios. Por favor, preencha todos os dados."
       );
       return;
@@ -41,9 +40,9 @@ export default function Register() {
     };
     const ok = await register(newUser);
     if (!ok) {
-      Alert.alert("Erro ao cadastrar", "Email já existe ou dados inválidos.");
+      alert("Email já existe ou dados inválidos.");
     } else {
-      Alert.alert("Sucesso", "Usuário cadastrado com sucesso!");
+      alert("Usuário cadastrado com sucesso!");
       router.push("/(auth)/login");
     }
   };
@@ -52,18 +51,17 @@ export default function Register() {
     <View style={styles.container}>
       <Text style={styles.label}>Nome:</Text>
       <Input
-        style={styles.input}
         value={nome}
         onChangeText={setNome}
         placeholder="Digite seu nome"
       />
       <Text style={styles.label}>CPF:</Text>
       <Input
-        style={styles.input}
         value={cpf}
         onChangeText={setCpf}
         keyboardType="numeric"
         placeholder="Digite seu CPF"
+        maxLength={11}
       />
       <Text style={styles.label}>Tipo de Usuário:</Text>
       <Picker
@@ -77,7 +75,6 @@ export default function Register() {
       </Picker>
       <Text style={styles.label}>Email:</Text>
       <Input
-        style={styles.input}
         value={email}
         onChangeText={setEmail}
         autoCapitalize="none"
@@ -85,7 +82,6 @@ export default function Register() {
       />
       <Text style={styles.label}>Senha:</Text>
       <Input
-        style={styles.input}
         value={senha}
         onChangeText={setSenha}
         secureTextEntry
@@ -125,10 +121,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   label: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "600",
-    color: "#eef2e3",
     marginTop: 8,
+    marginBottom: 8,
   },
   input: {
     borderWidth: 1,
