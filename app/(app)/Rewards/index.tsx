@@ -53,6 +53,7 @@ export default function Rewards() {
       };
       addMovimentation(newMovimentation);
       setRefetchStates(!refetchStates);
+      alert("Recompensa resgatada com sucesso!");
     } else {
       alert("Pontos insuficientes para resgatar esta recompensa.");
     }

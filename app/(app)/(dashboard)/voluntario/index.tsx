@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Container from "@/components/Container";
 import GridDashboard from "@/components/GridDashboard";
+import UserHeader from "@/components/UserHeader";
 import { CollectAreas } from "@/mocks/CollectAreas";
 import { useAuthStore } from "@/store/authStore";
 import { CollectAreaType, Job, Movimentation } from "@/types";
@@ -149,7 +150,7 @@ export default function DashScreen() {
   return (
     <ScrollView>
       <Container>
-        <Text>Voluntario</Text>
+        <UserHeader userName={user.nome} userType={user.tipoUsuario} />
         <GridDashboard.Root>
           <View style={styles.flex}>
             <GridDashboard.Mission

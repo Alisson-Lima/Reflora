@@ -19,7 +19,7 @@ export default function Missions({
   titleStyle,
   descriptionStyle,
   counterStyle,
-}: MissionsProps) {
+}: Readonly<MissionsProps>) {
   return (
     <View style={[styles.container, style]}>
       <View style={styles.header}>
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     flex: 3,
     justifyContent: "space-between",
     padding: 16,
-    
+
     height: 130,
     backgroundColor: "#fff",
     borderRadius: 12,

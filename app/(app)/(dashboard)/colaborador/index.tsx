@@ -1,6 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Container from "@/components/Container";
 import GridDashboard from "@/components/GridDashboard";
+import ListActionItem from "@/components/ListActionItem";
+import { Button } from "@/components/ui/button";
+import UserHeader from "@/components/UserHeader";
 import { useAuthStore } from "@/store/authStore";
 import { useMissionsStore } from "@/store/missionsStore";
 import { Mission, Movimentation, UserMission } from "@/types";
@@ -127,12 +130,13 @@ export default function DashScreen() {
 
     setRefetchStates(!refetchStates);
     setOpenFinishMissionModal(false);
+    alert("Missão concluída com sucesso!");
   }
 
   return (
     <ScrollView>
       <Container>
-        <Text style={styles.Text}>Colaborador</Text>
+        <UserHeader userName={user.nome} userType={user.tipoUsuario} />
         <GridDashboard.Root>
           <View style={styles.flex}>
             <GridDashboard.Mission
@@ -158,7 +162,9 @@ export default function DashScreen() {
             onPress={() => router.push("/movements")}
           />
         </GridDashboard.Root>
-        
+        <Button onPress={logout} style={styles.logoutButton}>
+          <Text style={styles.logoutText}>Logout</Text>
+        </Button>
 
         <Text style={styles.sectionTitle}>Missões Pendentes:</Text>
         {Array.isArray(pendingMissions) && pendingMissions.length > 0 ? (
@@ -166,30 +172,16 @@ export default function DashScreen() {
             data={pendingMissions}
             keyExtractor={(item) => item.id}
             renderItem={({ item }: Readonly<{ item: UserMission }>) => (
-              <View style={styles.rewardItem}>
-                <Text style={styles.rewardText}>Missão: {item.nome}</Text>
-                <Text style={styles.rewardText}>
-                  Descrição: {item.descricao}
-                </Text>
-                <Text style={styles.rewardText}>Local: {item.local}</Text>
-                <Text style={styles.rewardText}>Pontos: {item.points}</Text>
-                <Pressable
-                  onPress={() => {
-                    setSelectedUserMission(item);
-                    setOpenFinishMissionModal(true);
-                  }}
-                  style={{
-                    marginTop: 8,
-                    backgroundColor: "#007bff",
-                    padding: 10,
-                    borderRadius: 4,
-                  }}
-                >
-                  <Text style={{ color: "#fff", textAlign: "center" }}>
-                    Visualizar
-                  </Text>
-                </Pressable>
-              </View>
+              <ListActionItem
+                title={item.nome}
+                description={item.descricao}
+                onPress={() => {
+                  setSelectedUserMission(item);
+                  setOpenFinishMissionModal(true);
+                }}
+                hasPoints={true}
+                points={item.points}
+              />
             )}
           />
         ) : (
@@ -202,39 +194,21 @@ export default function DashScreen() {
             data={appMissions}
             keyExtractor={(item) => item.id}
             renderItem={({ item }: Readonly<{ item: Mission }>) => (
-              <View style={styles.rewardItem}>
-                <Text style={styles.rewardText}>Missão: {item.nome}</Text>
-                <Text style={styles.rewardText}>
-                  Descrição: {item.descricao}
-                </Text>
-                <Text style={styles.rewardText}>Local: {item.local}</Text>
-                <Text style={styles.rewardText}>Pontos: {item.points}</Text>
-                <Pressable
-                  onPress={() => {
-                    setSelectedMission(item);
-                    setOpenGetMissionModal(true);
-                  }}
-                  style={{
-                    marginTop: 8,
-                    backgroundColor: "#007bff",
-                    padding: 10,
-                    borderRadius: 4,
-                  }}
-                >
-                  <Text style={{ color: "#fff", textAlign: "center" }}>
-                    Visualizar
-                  </Text>
-                </Pressable>
-              </View>
+              <ListActionItem
+                title={item.nome}
+                description={item.descricao}
+                onPress={() => {
+                  setSelectedMission(item);
+                  setOpenGetMissionModal(true);
+                }}
+                hasPoints={true}
+                points={item.points}
+              />
             )}
           />
         ) : (
           <Text style={styles.info}>Nenhuma missão disponível.</Text>
         )}
-
-        <Pressable onPress={logout} style={styles.logoutButton}>
-          <Text style={styles.logoutText}>Logout</Text>
-        </Pressable>
 
         <Modal
           animationType="slide"
@@ -333,6 +307,8 @@ export default function DashScreen() {
                 onPress={() => {
                   if (codeValue === selectedUserMission?.codigoVerificador) {
                     handleFinishUserMission(selectedUserMission);
+                  } else {
+                    alert("Código verificador incorreto!");
                   }
                 }}
                 style={{
@@ -383,14 +359,8 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   logoutButton: {
-    width: "40%",
-    padding: 10,
     backgroundColor: "#dc3545",
-    borderRadius: 8,
     marginTop: 16,
-    alignItems: "center",
-    textAlign: "center",
-    alignSelf: "center",
   },
   logoutText: {
     color: "white",
@@ -398,7 +368,6 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   Text: {
-    color: "#eef2e3",
     fontSize: 20,
     fontWeight: "600",
     marginTop: 16,
@@ -407,7 +376,6 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#eef2e3",
     marginTop: 16,
     marginBottom: 8,
   },
@@ -424,7 +392,6 @@ const styles = StyleSheet.create({
   },
   info: {
     fontSize: 16,
-    color: "#eef2e3",
     opacity: 0.7,
     marginBottom: 16,
   },

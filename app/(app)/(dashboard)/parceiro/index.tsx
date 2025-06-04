@@ -2,20 +2,15 @@
 import Container from "@/components/Container";
 import GridDashboard from "@/components/GridDashboard";
 import { Button } from "@/components/ui/button";
+import UserHeader from "@/components/UserHeader";
 import { useAuthStore } from "@/store/authStore";
 import { useMissionsStore } from "@/store/missionsStore";
 import { useRewardsStore } from "@/store/rewardsStore";
 import { Mission, Reward } from "@/types";
+import { format } from "date-fns";
 import { router } from "expo-router";
 import { useEffect } from "react";
-import {
-  FlatList,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function DashScreen() {
   const { user, logout, getMovements } = useAuthStore();
@@ -60,41 +55,56 @@ export default function DashScreen() {
   return (
     <ScrollView>
       <Container>
-        <Text style={styles.sectionTitle}>Parceiro</Text>
+        <UserHeader userName={user.nome} userType={user.tipoUsuario} />
         <GridDashboard.Root>
           <View style={styles.flex}>
             <GridDashboard.Mission
               title="Missões Criadas"
-              description="Desde 08, 2024 até hoje"
+              description={`Desde ${format(
+                new Date(user.createdAt),
+                "dd/MM/yyyy"
+              )} até hoje`}
               counter={
                 Array.isArray(userMissions) ? String(userMissions.length) : ""
               }
             />
             <GridDashboard.Mission
               title="Recompensas Criadas"
-              description="Desde 08, 2024 até hoje"
+              description={`Desde ${format(
+                new Date(user.createdAt),
+                "dd/MM/yyyy"
+              )} até hoje`}
               counter={
                 Array.isArray(userRewards) ? String(userRewards.length) : ""
               }
             />
           </View>
           <GridDashboard.Historic
-
             title="Histórico de movimentações"
             description="Última movimentação"
             counter={getLastMovement()}
             onPress={() => router.push("/movements")}
           />
-          <View style={styles.actionsContainer}>
+          <Button onPress={logout} style={styles.logoutButton}>
+            Sair
+          </Button>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
             <Button
               onPress={() => router.push("/create/reward")}
-            >Criar novo brinde</Button>
+              style={{ width: "49%" }}
+            >
+              Criar novo brinde
+            </Button>
             <Button
               onPress={() => router.push("/create/mission")}
-            >Criar nova missão</Button>
+              style={{ width: "49%" }}
+            >
+              Criar nova missão
+            </Button>
           </View>
         </GridDashboard.Root>
-        
 
         <Text style={styles.sectionTitle}>Recompensas Financiadas:</Text>
         {userRewards.length === 0 ? (
@@ -134,35 +144,23 @@ export default function DashScreen() {
             )}
           />
         )}
-        <Button onPress={logout} style={styles.logoutButton}>Sair</Button>
       </Container>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  
   flex: {
     flexDirection: "row",
     gap: 16,
     width: "100%",
     justifyContent: "center",
-    marginBottom: 16,
   },
-  Container:{
+  Container: {
     maxWidth: "90%",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-  },
-  actionsContainer: {
-    flexDirection: "row",
-    gap: 12,
-    width: "100%",
-    marginTop: 16,
-    display: "flex",
-    alignItems: "center", 
-    justifyContent: "space-around",
   },
   logoutButton: {
     backgroundColor: "#e74c3c",
@@ -196,4 +194,3 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
 });
-

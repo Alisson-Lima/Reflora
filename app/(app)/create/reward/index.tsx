@@ -1,23 +1,36 @@
-import { useAuthStore } from "@/store/authStore";
 import Container from "@/components/Container";
-import { Button } from "@/components/ui/button";
 import GridDashboard from "@/components/GridDashboard";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/Input";
+import { useAuthStore } from "@/store/authStore";
 import { useRewardsStore } from "@/store/rewardsStore";
 import { Reward } from "@/types/index";
 import { Picker } from "@react-native-picker/picker";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
-  Alert,
   Modal,
-  StyleSheet,
   ScrollView,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
 import { v4 as uuidv4 } from "uuid";
+
+const colors = {
+  foreground: "#09090B", // Cor do texto principal (slate-900)
+  mutedForeground: "#71717A", // Cor do placeholder (slate-500)
+  primary: "#3B82F6", // Azul primário (blue-500) - para seleção e foco
+  primaryForeground: "#FFFFFF", // Texto sobre o primário (branco)
+  inputBackground: "transparent", // Fundo do input (transparente por padrão)
+  // darkInputBackground: 'rgba(55, 65, 81, 0.3)', // Ex: bg-input/30 (gray-700 com opacidade) - para dark mode
+  borderColor: "#E4E4E7", // Cor da borda (slate-200 ou zinc-200)
+  ringColor: "#3B82F6", // Cor do anel de foco (blue-500)
+  destructiveColor: "#EF4444", // Cor para erro (red-500)
+  disabledOpacity: 0.5,
+};
 
 // Lista estática de produtos disponíveis
 type Product = {
@@ -70,19 +83,17 @@ export default function CreateReward() {
 
   const handleConfirm = () => {
     if (!investment || !selectedProduct) {
-      Alert.alert(
-        "Erro",
+      alert(
         "Por favor, preencha o valor do investimento e selecione um produto."
       );
       return;
     }
     if (isInvalidInvestment) {
-      Alert.alert("Erro", `Investimento mínimo de R$${selectedProduct.valor}`);
+      alert(`Investimento mínimo de R$${selectedProduct.valor}`);
       return;
     }
     if (quantity === 0) {
-      Alert.alert(
-        "Erro",
+      alert(
         "O valor do investimento é insuficiente para financiar uma recompensa."
       );
       return;
@@ -92,7 +103,7 @@ export default function CreateReward() {
 
   const handlePasswordSubmit = async () => {
     if (!user) {
-      Alert.alert("Erro", "Nenhum usuário logado.");
+      alert("Nenhum usuário logado.");
       setModalVisible(false);
       return;
     }
@@ -100,7 +111,7 @@ export default function CreateReward() {
     // Valida a senha
     const isValid = await login(user.email, password);
     if (!isValid) {
-      Alert.alert("Erro", "Senha incorreta. Tente novamente.");
+      alert("Senha incorreta. Tente novamente.");
       setPassword("");
       return;
     }
@@ -117,101 +128,98 @@ export default function CreateReward() {
     if (success) {
       // Adiciona movimentação
       await addMovimentation({
-        type:"create-reward",
+        type: "create-reward",
         description: `Financiou ${quantity} unidade(s) de "${
           selectedProduct.nome
         }" por ${selectedProduct.points * quantity} pontos`,
       });
-      Alert.alert(
-        "Sucesso",
-        `Recompensa "${selectedProduct.nome}" financiada com sucesso!`
-      );
+      alert(`Recompensa "${selectedProduct.nome}" financiada com sucesso!`);
       setModalVisible(false);
       router.push("/");
     } else {
-      Alert.alert("Erro", "Falha ao criar a recompensa.");
+      alert("Falha ao criar a recompensa.");
       setModalVisible(false);
     }
   };
 
   return (
     <ScrollView>
-          <Container>
-    <View style={styles.container}>
-      <Text style={styles.label}>Valor do Investimento (R$):</Text>
-      <TextInput
-        value={investment}
-        onChangeText={setInvestment}
-        style={[styles.input, isInvalidInvestment && styles.invalidInput]}
-        keyboardType="numeric"
-        placeholder="Digite o valor"
-      />
-      {isInvalidInvestment && (
-        <Text style={styles.errorText}>
-          Investimento mínimo de R${minInvestment}
+      <Container>
+        <Text style={styles.label}>Valor do Investimento (R$):</Text>
+        <Input
+          value={investment}
+          onChangeText={setInvestment}
+          style={[styles.input, isInvalidInvestment && styles.invalidInput]}
+          keyboardType="numeric"
+          placeholder="Digite o valor"
+        />
+        {isInvalidInvestment && (
+          <Text style={styles.errorText}>
+            Investimento mínimo de R${minInvestment}
+          </Text>
+        )}
+        <Text style={styles.label}>Recompensa:</Text>
+        <Picker
+          selectedValue={JSON.stringify(selectedProduct)}
+          onValueChange={(value) => {
+            console.log("Selecionando produto:", value);
+            setSelectedProduct(JSON.parse(value));
+          }}
+          style={styles.picker}
+        >
+          {productsAvailable.map((product) => (
+            <Picker.Item
+              key={product.id}
+              label={`${product.nome} (R$${product.valor}, ${product.points} pontos)`}
+              value={JSON.stringify(product)}
+            />
+          ))}
+        </Picker>
+        <Text style={styles.info}>
+          Quantidade Financiada: {quantity}{" "}
+          {quantity === 1 ? "unidade" : "unidades"}
         </Text>
-      )}
-      <Text style={styles.label}>Recompensa:</Text>
-      <Picker
-        selectedValue={JSON.stringify(selectedProduct)}
-        onValueChange={(value) => {
-          console.log("Selecionando produto:", value);
-          setSelectedProduct(JSON.parse(value));
-        }}
-        style={styles.picker}
-      >
-        {productsAvailable.map((product) => (
-          <Picker.Item
-            key={product.id}
-            label={`${product.nome} (R$${product.valor}, ${product.points} pontos)`}
-            value={JSON.stringify(product)}
-          />
-        ))}
-      </Picker>
-      <Text style={styles.info}>
-        Quantidade Financiada: {quantity}{" "}
-        {quantity === 1 ? "unidade" : "unidades"}
-      </Text>
         <Button onPress={handleConfirm}>Confirmar</Button>
-    <Button style={styles.button} onPress={() => router.push("/")}>Voltar</Button>
+        <Button style={styles.button} onPress={() => router.push("/")}>
+          Voltar
+        </Button>
 
-      {/* Modal para confirmação de senha */}
-      <Modal  
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Confirme sua Senha</Text>
-            <TextInput
-              value={password}
-              onChangeText={setPassword}
-              style={styles.input}
-              secureTextEntry
-              placeholder="Digite sua senha"
-            />
-            <View style={styles.modalButtons}>
-              <TouchableOpacity
-                style={[styles.modalButton, styles.cancelButton]}
-                onPress={() => {
-                  setModalVisible(false);
-                  setPassword("");
-                }}
-              >
-                <Text style={styles.buttonText}>Cancelar</Text>
-              </TouchableOpacity>
-                    <GridDashboard.Actions
-              label="Confirmar"
-              onPress={handlePasswordSubmit}
-            />
+        {/* Modal para confirmação de senha */}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalTitle}>Confirme sua Senha</Text>
+              <TextInput
+                value={password}
+                onChangeText={setPassword}
+                style={styles.input}
+                secureTextEntry
+                placeholder="Digite sua senha"
+              />
+              <View style={styles.modalButtons}>
+                <TouchableOpacity
+                  style={[styles.modalButton, styles.cancelButton]}
+                  onPress={() => {
+                    setModalVisible(false);
+                    setPassword("");
+                  }}
+                >
+                  <Text style={styles.buttonText}>Cancelar</Text>
+                </TouchableOpacity>
+                <GridDashboard.Actions
+                  label="Confirmar"
+                  onPress={handlePasswordSubmit}
+                />
+              </View>
             </View>
           </View>
-        </View>
-      </Modal>
-    </View>
-    </Container>
+        </Modal>
+      </Container>
     </ScrollView>
   );
 }
@@ -219,10 +227,6 @@ export default function CreateReward() {
 const styles = StyleSheet.create({
   button: {
     marginTop: 12,
-  },
-  container: {
-    flex: 1,
-    padding: 16,
   },
   label: {
     fontSize: 16,
@@ -246,10 +250,15 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   picker: {
+    height: 40,
+    borderRadius: 6,
     borderWidth: 1,
-    borderColor: "#ccc",
-    marginBottom: 8,
-    borderRadius: 4,
+    borderColor: colors.borderColor,
+    backgroundColor: colors.inputBackground,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    fontSize: 14,
+    color: colors.foreground,
   },
   info: {
     fontSize: 16,
@@ -299,6 +308,5 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "#fff",
     fontWeight: "600",
-
   },
 });
